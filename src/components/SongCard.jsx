@@ -4,8 +4,21 @@ import { useDispatch } from "react-redux";
 import PlayPause from "./PlayPause";
 import { playPause, setActiveSong } from "../redux/features/playerSlice";
 
-const SongCard = ({ song, i }) => {
-  const activeSong = 'test';
+const SongCard = ({ song, isPlaying, activeSong, i, data }) => {
+
+  const dispatch = useDispatch();
+
+  const handlePauseClick = () => {
+    dispatch(playPause(false));
+    console.log("cliicking play")
+  }
+
+  const handlePlayClick = () => {
+    dispatch(setActiveSong({ song, data, i }));
+    dispatch(playPause(true));
+    console.log("cliicking pause")
+
+  }
 
   return (
     <div className={`${song.images?.coverart
@@ -23,10 +36,15 @@ const SongCard = ({ song, i }) => {
           bg-black 
           bg-opacity-50 
           group-hover:flex 
-          ${activeSong?.title === song.title ? 'flex bg-black bg-opacity-70' : 'hidden'}
-        `} >
+          ${activeSong?.title === song.title ? 'flex bg-black bg-opacity-70' : 'hidden'}`}>
 
-          <PlayPause />
+          <PlayPause
+            isPlaying={isPlaying}
+            activeSong={activeSong}
+            song={song}
+            handlePause={handlePauseClick}
+            handlePlay={handlePlayClick}
+          />
         </div>
 
         <img src={song.images?.coverart} alt="song_img" />
@@ -36,16 +54,16 @@ const SongCard = ({ song, i }) => {
 
         <p className="title font-semibold text-lg text-white truncate">
           <Link to={`/songs/${song?.key}`}>
-          {song.title}
+            {song.title}
           </Link>
         </p>
 
         <p className="subtitle text-sm text-gray-300 mt-1 truncate">
-          <Link to={song.artists ? `/artists/${song?.artists[0]?.adamid}` : 'top-artists'}>
+          <Link to={song.artists ? `/artists/${song?.artists[0]?.adamid}` : '/top-artists'}>
             {song.subtitle}
           </Link>
         </p>
-        
+
       </div>
     </div>
   );

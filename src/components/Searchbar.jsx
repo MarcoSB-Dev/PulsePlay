@@ -4,11 +4,11 @@ import { FiSearch } from 'react-icons/fi';
 
 const Searchbar = () => {
   const navigate = useNavigate();
-  const [searrchItem, setSearchItem] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate(`/search/${searrchItem}`);
+    navigate(`/search/${searchTerm}`);
   }
 
   return (
@@ -25,8 +25,8 @@ const Searchbar = () => {
           id="search-field"
           placeholder="Search"
           type="search"
-          value={searrchItem}
-          onChange={(e) => setSearchItem(e.target.value)}
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full h-10 ml-3 p-4 bg-transparent focus:outline-none text-white text-lg"
         />
       </div>
